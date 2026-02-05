@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.PianoMaster" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">#020617</item>
+        <item name="android:windowBackground">#020617</item>
+        <item name="android:colorPrimary">#3B82F6</item>
+        <item name="android:colorPrimaryDark">#6366F1</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
