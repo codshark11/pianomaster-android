@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.pianomaster.app.audio.PianoSound
 import com.pianomaster.app.data.CoursesRepository
 import com.pianomaster.app.data.LessonType
+import com.pianomaster.app.ui.components.FloatingBackButton
 import com.pianomaster.app.ui.components.PianoKeys
 import com.pianomaster.app.ui.theme.Background
 import com.pianomaster.app.ui.theme.Surface
@@ -50,44 +51,34 @@ fun LessonScreen(
         return
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(Background)) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            IconButton(onClick = onBack) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = TextPrimary)
-            }
-        }
+    Box(modifier = Modifier.fillMaxSize().background(Background)) {
         Column(
             modifier = Modifier
-                .weight(1f)
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(24.dp)
         ) {
+        Text(
+            lesson.title,
+            style = MaterialTheme.typography.headlineSmall,
+            color = TextPrimary
+        )
+        Text(
+            "${lesson.duration} • ${lesson.type.name}",
+            style = MaterialTheme.typography.labelMedium,
+            color = TextSecondary,
+            modifier = Modifier.padding(top = 4.dp)
+        )
+        lesson.description?.let { desc ->
+            Spacer(Modifier.height(16.dp))
             Text(
-                lesson.title,
-                style = MaterialTheme.typography.headlineSmall,
-                color = TextPrimary
+                desc,
+                style = MaterialTheme.typography.bodyMedium,
+                color = TextSecondary
             )
-            Text(
-                "${lesson.duration} • ${lesson.type.name}",
-                style = MaterialTheme.typography.labelMedium,
-                color = TextSecondary,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-            lesson.description?.let { desc ->
-                Spacer(Modifier.height(16.dp))
-                Text(
-                    desc,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = TextSecondary
-                )
-            }
-            Spacer(Modifier.height(24.dp))
-            when (lesson.type) {
+        }
+        Spacer(Modifier.height(24.dp))
+        when (lesson.type) {
                 LessonType.ARTICLE -> {
                     lesson.content?.let { content ->
                         Text(
@@ -140,7 +131,13 @@ fun LessonScreen(
                     }
                 }
             }
-            Spacer(Modifier.height(100.dp))
+        Spacer(Modifier.height(100.dp))
         }
+        FloatingBackButton(
+            onClick = onBack,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp)
+        )
     }
 }

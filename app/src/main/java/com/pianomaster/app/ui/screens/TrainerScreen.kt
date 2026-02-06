@@ -2,10 +2,16 @@ package com.pianomaster.app.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,10 +25,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pianomaster.app.audio.PianoSound
 import com.pianomaster.app.data.SongsRepository
+import com.pianomaster.app.ui.components.FloatingBackButton
 import com.pianomaster.app.ui.components.NoteCascade
 import com.pianomaster.app.ui.components.PianoKeys
-import com.pianomaster.app.ui.components.TrainerHeader
 import com.pianomaster.app.ui.theme.Background
+import com.pianomaster.app.ui.theme.TextPrimary
 import com.pianomaster.app.ui.theme.TextSecondary
 
 @Composable
@@ -44,21 +51,10 @@ fun TrainerScreen(
         return
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(Color.Black)) {
-        TrainerHeader(
-            title = song.title,
-            difficulty = "${song.difficulty} Level",
-            isTrial = song.price == 0,
-            progress = progress.value,
-            accuracy = accuracy,
-            visualModeCascade = visualModeCascade,
-            onBack = onBack,
-            onVisualModeToggle = { visualModeCascade = !visualModeCascade },
-            onSettings = onSettings
-        )
+    Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
         Box(
             modifier = Modifier
-                .weight(1f)
+                .fillMaxSize()
                 .fillMaxWidth()
                 .background(Background)
         ) {
@@ -86,10 +82,23 @@ fun TrainerScreen(
                 }
             }
         }
+        Row(
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.TopEnd),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            FloatingBackButton(onClick = onBack)
+            IconButton(onClick = onSettings) {
+                Icon(Icons.Filled.Settings, contentDescription = "Settings", tint = TextPrimary)
+            }
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
+                .align(Alignment.BottomCenter)
                 .background(Color(0xFF0C0C0C))
         ) {
             PianoKeys(

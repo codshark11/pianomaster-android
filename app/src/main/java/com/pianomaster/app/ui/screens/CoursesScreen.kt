@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -46,15 +47,13 @@ fun CoursesScreen(
     onBack: () -> Unit
 ) {
     val courses = CoursesRepository.courses
-    Column(modifier = Modifier.fillMaxSize().background(Background)) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Background.copy(alpha = 0.8f))
-                .border(1.dp, Color.White.copy(alpha = 0.05f))
-                .padding(24.dp)
-        ) {
-            Column {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().background(Background),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+        contentPadding = PaddingValues(24.dp)
+    ) {
+        item {
+            Column(modifier = Modifier.padding(bottom = 8.dp)) {
                 Text(
                     "Courses",
                     style = MaterialTheme.typography.headlineLarge,
@@ -67,18 +66,13 @@ fun CoursesScreen(
                 )
             }
         }
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            items(courses) { course ->
-                CourseCard(
-                    course = course,
-                    onClick = { onSelectCourse(course.id) }
-                )
-            }
-            item { Spacer(Modifier.height(100.dp)) }
+        items(courses) { course ->
+            CourseCard(
+                course = course,
+                onClick = { onSelectCourse(course.id) }
+            )
         }
+        item { Spacer(Modifier.height(100.dp)) }
     }
 }
 

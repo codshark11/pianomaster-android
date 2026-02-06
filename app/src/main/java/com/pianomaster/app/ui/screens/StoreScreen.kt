@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material3.Icon
@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pianomaster.app.data.SongsRepository
+import com.pianomaster.app.ui.components.FloatingBackButton
 import com.pianomaster.app.ui.components.SongCard
 import com.pianomaster.app.ui.components.dialogs.AddCreditsDialog
 import com.pianomaster.app.ui.theme.Background
@@ -53,82 +54,68 @@ fun StoreScreen(onBack: () -> Unit) {
         onOpenChange = { isAddCreditsOpen = it },
         onAddCredits = { amount -> credits += amount }
     )
-    Column(modifier = Modifier.fillMaxSize().background(Background)) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            contentAlignment = Alignment.CenterStart
+    Box(modifier = Modifier.fillMaxSize().background(Background)) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            IconButton(onClick = onBack) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = TextPrimary)
-            }
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-        ) {
-            Text(
-                "Store",
-                style = MaterialTheme.typography.headlineLarge,
-                color = TextPrimary
-            )
-            Text(
-                "Unlock songs with credits",
-                style = MaterialTheme.typography.bodyMedium,
-                color = TextSecondary
-            )
-            Spacer(Modifier.height(24.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        Brush.linearGradient(listOf(Primary, PrimaryVariant)),
-                        RoundedCornerShape(20.dp)
-                    )
-                    .padding(24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Filled.CreditCard, null, tint = Color.White)
-                    Spacer(Modifier.padding(8.dp))
+            item {
+                Column(modifier = Modifier.padding(end = 48.dp)) {
                     Text(
-                        "Credits",
-                        style = MaterialTheme.typography.titleMedium,
+                        "Store",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = TextPrimary
+                    )
+                    Text(
+                        "Unlock songs with credits",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextSecondary
+                    )
+                }
+            }
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            Brush.linearGradient(listOf(Primary, PrimaryVariant)),
+                            RoundedCornerShape(20.dp)
+                        )
+                        .padding(24.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Filled.CreditCard, null, tint = Color.White)
+                        Spacer(Modifier.padding(8.dp))
+                        Text(
+                            "Credits",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color.White
+                        )
+                    }
+                    Text(
+                        "$credits",
+                        style = MaterialTheme.typography.headlineMedium,
                         color = Color.White
                     )
                 }
-                Text(
-                    "$credits",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = Color.White
-                )
-            }
-            Spacer(Modifier.height(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                IconButton(
-                    onClick = { isAddCreditsOpen = true }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Icon(Icons.Filled.Add, contentDescription = "Add credits", tint = Primary)
+                    IconButton(onClick = { isAddCreditsOpen = true }) {
+                        Icon(Icons.Filled.Add, contentDescription = "Add credits", tint = Primary)
+                    }
+                    Text(
+                        "Add Credits",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = Primary,
+                        modifier = Modifier.padding(top = 12.dp)
+                    )
                 }
-                Text(
-                    "Add Credits",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Primary,
-                    modifier = Modifier.padding(top = 12.dp)
-                )
             }
-        }
-        Spacer(Modifier.height(24.dp))
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
             items(storeSongs) { song ->
                 val isUnlocked = unlockedSongIds.contains(song.id)
                 SongCard(
@@ -145,5 +132,11 @@ fun StoreScreen(onBack: () -> Unit) {
             }
             item { Spacer(Modifier.height(100.dp)) }
         }
+        FloatingBackButton(
+            onClick = onBack,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp)
+        )
     }
 }

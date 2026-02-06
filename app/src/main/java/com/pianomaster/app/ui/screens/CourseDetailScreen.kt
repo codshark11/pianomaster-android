@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MenuBook
@@ -45,6 +44,7 @@ import com.pianomaster.app.ui.theme.Background
 import com.pianomaster.app.ui.theme.DifficultyEasy
 import com.pianomaster.app.ui.theme.DifficultyHard
 import com.pianomaster.app.ui.theme.DifficultyMedium
+import com.pianomaster.app.ui.components.FloatingBackButton
 import com.pianomaster.app.ui.theme.Surface
 import com.pianomaster.app.ui.theme.TextPrimary
 import com.pianomaster.app.ui.theme.TextSecondary
@@ -86,7 +86,12 @@ private fun CourseDetailContent(
         CourseLevel.Advanced -> listOf(Color(0xFFF97316).copy(alpha = 0.4f), Background)
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(Background)) {
+    Box(modifier = Modifier.fillMaxSize().background(Background)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Box(
                 modifier = Modifier
@@ -94,14 +99,6 @@ private fun CourseDetailContent(
                     .height(200.dp)
                     .background(Brush.verticalGradient(gradientColors))
             )
-            IconButton(
-                onClick = onBack,
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(24.dp)
-            ) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = TextPrimary)
-            }
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
@@ -164,12 +161,7 @@ private fun CourseDetailContent(
                 }
             }
         }
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(24.dp)
-        ) {
+        Column(modifier = Modifier.padding(24.dp)) {
             Text(
                 "Course Content",
                 style = MaterialTheme.typography.titleMedium,
@@ -191,6 +183,13 @@ private fun CourseDetailContent(
             }
             Spacer(Modifier.height(100.dp))
         }
+        }
+        FloatingBackButton(
+            onClick = onBack,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp)
+        )
     }
 }
 

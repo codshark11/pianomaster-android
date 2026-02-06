@@ -93,25 +93,24 @@ fun LibraryScreen(
         onOpenChange = { isAuthOpen = it },
         onLogin = { isLoggedIn = true }
     )
-    Column(modifier = Modifier.fillMaxSize().background(Background)) {
-        LibraryHud(
-            level = level,
-            xpProgress = xpProgress,
-            xp = xp,
-            streak = streak,
-            topPlayers = topPlayers
-        )
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 160.dp),
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 24.dp),
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-        ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Column(modifier = Modifier.padding(bottom = 24.dp)) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 160.dp),
+        horizontalArrangement = Arrangement.spacedBy(24.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 24.dp),
+        modifier = Modifier.fillMaxSize().background(Background)
+    ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            LibraryHud(
+                level = level,
+                xpProgress = xpProgress,
+                xp = xp,
+                streak = streak,
+                topPlayers = topPlayers
+            )
+        }
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            Column(modifier = Modifier.padding(bottom = 24.dp)) {
                     if (lastSong != null) {
                         SectionTitle("Recently Played")
                         Spacer(Modifier.height(16.dp))
@@ -153,7 +152,6 @@ fun LibraryScreen(
                 Spacer(Modifier.height(120.dp))
             }
         }
-    }
 }
 
 @Composable

@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
@@ -36,6 +35,7 @@ import com.pianomaster.app.ui.theme.PrimaryVariant
 import com.pianomaster.app.ui.theme.Surface
 import com.pianomaster.app.ui.theme.TextPrimary
 import com.pianomaster.app.ui.theme.TextSecondary
+import com.pianomaster.app.ui.components.FloatingBackButton
 import com.pianomaster.app.ui.theme.TrophyYellow
 import com.pianomaster.app.ui.theme.XPBarEnd
 import com.pianomaster.app.ui.theme.XPBarStart
@@ -46,27 +46,19 @@ fun ProfileScreen(onBack: () -> Unit) {
     val xp = 1250
     val xpProgress = 0.65f
 
-    Column(modifier = Modifier.fillMaxSize().background(Background)) {
-        Box(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            contentAlignment = Alignment.CenterEnd
-        ) {
-            IconButton(onClick = onBack) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = TextPrimary)
-            }
-        }
+    Box(modifier = Modifier.fillMaxSize().background(Background)) {
         Column(
             modifier = Modifier
-                .weight(1f)
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(24.dp)
         ) {
-            Text(
-                "My Profile",
-                style = MaterialTheme.typography.headlineLarge,
-                color = TextPrimary
-            )
-            Spacer(Modifier.height(32.dp))
+        Text(
+            "My Profile",
+            style = MaterialTheme.typography.headlineLarge,
+            color = TextPrimary
+        )
+        Spacer(Modifier.height(32.dp))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -180,5 +172,11 @@ fun ProfileScreen(onBack: () -> Unit) {
             }
             Spacer(Modifier.height(100.dp))
         }
+        FloatingBackButton(
+            onClick = onBack,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp)
+        )
     }
 }
